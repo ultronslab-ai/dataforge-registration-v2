@@ -52,6 +52,7 @@ const SUPABASE_URL = (ENV.SUPABASE_URL || '').replace(/\/$/, '');
 const SUPABASE_SERVICE_ROLE_KEY = ENV.SUPABASE_SERVICE_ROLE_KEY || '';
 const USE_SUPABASE = Boolean(SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY);
 const REQUIRE_SUPABASE = ENV.REQUIRE_SUPABASE === 'true' || ENV.NODE_ENV === 'production';
+const SUPABASE_STORAGE_BUCKET = ENV.SUPABASE_STORAGE_BUCKET || 'registration-files';
 
 if (REQUIRE_SUPABASE && !USE_SUPABASE) {
   throw new Error('Supabase is required in production. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in Render environment variables.');
@@ -264,7 +265,36 @@ function readBody(req) {
   });
 }
 
-function parseMultipart(buffer, contentType) {
+function safeStorageName(value) {
+  return String(value || 'file')
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'file';
+}
+
+async function uploadToSupabaseStorage(subfolder, savedName, bytes, contentType) {
+  const objectPath = `${subfolder}/${savedName}`;
+  const response = await fetch(`${SUPABASE_URL}/storage/v1/object/${SUPABASE_STORAGE_BUCKET}/${objectPath}`, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      'Content-Type': contentType || 'application/octet-stream',
+      'x-upsert': 'true'
+    },
+    body: bytes
+  });
+
+  const text = await response.text();
+  const payload = text ? JSON.parse(text) : null;
+  if (!response.ok) {
+    throw new Error(`Supabase storage upload failed: ${payload?.message || text || response.statusText}`);
+  }
+
+  return `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_STORAGE_BUCKET}/${objectPath}`;
+}
+
+async function parseMultipart(buffer, contentType) {
   const boundaryMatch = contentType.match(/boundary=(.+)$/);
   if (!boundaryMatch) return {};
   const boundary = `--${boundaryMatch[1]}`;
@@ -296,12 +326,18 @@ function parseMultipart(buffer, contentType) {
     if (!allowedExts.has(ext)) continue;
 
     const subfolder = name === 'payment_proof' ? 'payment-proofs' : name === 'captainFile' ? 'resumes' : 'others';
-    const uploadDir = path.join(ROOT, 'uploads', subfolder);
-    fs.mkdirSync(uploadDir, { recursive: true });
+    const savedName = `${safeStorageName(name)}-${Date.now()}-${crypto.randomBytes(4).toString('hex')}${ext}`;
+    const bytes = Buffer.from(rawValue, 'latin1');
 
-    const savedName = `${name}-${Date.now()}-${crypto.randomBytes(4).toString('hex')}${ext}`;
-    fs.writeFileSync(path.join(uploadDir, savedName), Buffer.from(rawValue, 'latin1'));
-    fields[name] = `/uploads/${subfolder}/${savedName}`;
+    if (USE_SUPABASE) {
+      const contentTypeMatch = headers.match(/Content-Type:\s*([^\r\n]+)/i);
+      fields[name] = await uploadToSupabaseStorage(subfolder, savedName, bytes, contentTypeMatch?.[1]);
+    } else {
+      const uploadDir = path.join(ROOT, 'uploads', subfolder);
+      fs.mkdirSync(uploadDir, { recursive: true });
+      fs.writeFileSync(path.join(uploadDir, savedName), bytes);
+      fields[name] = `/uploads/${subfolder}/${savedName}`;
+    }
   }
   return fields;
 }
