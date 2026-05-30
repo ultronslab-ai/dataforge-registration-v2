@@ -419,6 +419,8 @@ function formatEventDate(value) {
 }
 
 function mailConfigReady() {
+  if (ENV.BREVO_API_KEY && ENV.MAIL_FROM_EMAIL) return true;
+
   return ENV.SMTP_HOST &&
     ENV.SMTP_USER &&
     ENV.SMTP_PASS &&
@@ -430,6 +432,31 @@ function appendMailLog(entry) {
   const log = fs.existsSync(MAIL_LOG_FILE) ? JSON.parse(fs.readFileSync(MAIL_LOG_FILE, 'utf8')) : [];
   log.push({ ...entry, created_at: new Date().toISOString() });
   fs.writeFileSync(MAIL_LOG_FILE, JSON.stringify(log, null, 2));
+}
+
+async function sendBrevoApiMail({ to, subject, text }) {
+  const fromEmail = ENV.MAIL_FROM_EMAIL;
+  const fromName = ENV.MAIL_FROM_NAME || ENV.CLUB_NAME || 'DataForge';
+
+  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'api-key': ENV.BREVO_API_KEY,
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      sender: { name: fromName, email: fromEmail },
+      to: [{ email: to }],
+      subject,
+      textContent: text
+    })
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`Brevo API failed: ${payload.message || response.statusText}`);
+  }
 }
 
 function smtpRead(socket) {
@@ -514,6 +541,11 @@ function upgradeToTls(socket, host) {
 }
 
 async function sendSmtpMail({ to, subject, text }) {
+  if (ENV.BREVO_API_KEY && ENV.MAIL_FROM_EMAIL) {
+    await sendBrevoApiMail({ to, subject, text });
+    return;
+  }
+
   const host = ENV.SMTP_HOST || 'smtp.gmail.com';
   const port = Number(ENV.SMTP_PORT || 587);
   const secure = ENV.SMTP_SECURE === 'true' || port === 465;
