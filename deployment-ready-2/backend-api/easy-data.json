@@ -1,0 +1,11 @@
+{
+  "nextEventId": 1,
+  "nextRegistrationId": 1,
+  "admin": {
+    "username": "admin",
+    "password": "cyberadmin2042",
+    "email": "admin@dataforge.edu"
+  },
+  "events": [],
+  "registrations": []
+}

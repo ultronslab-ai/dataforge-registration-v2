@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataForge Admin - Events</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/dataforge-logo.png" alt="DataForge" class="brand-logo">
+        <span class="brand-kicker">Admin Terminal</span>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a href="events.html" class="active">Manage Events</a></li>
+        <li class="nav-item"><a href="#" id="logoutBtn">Terminate Session</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar flex justify-between align-center">
+        <h2>Event Manifest</h2>
+        <a href="create-event.html" class="btn">+ Deploy New Event</a>
+      </header>
+
+      <div class="table-container mt-1">
+        <table>
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Registrations</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="eventsListTable">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="js/matrix-bg.js" defer></script>
+  <script type="module" src="js/admin/events.js"></script>
+</body>
+</html>

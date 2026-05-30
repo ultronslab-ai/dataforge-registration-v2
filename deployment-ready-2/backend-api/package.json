@@ -1,0 +1,16 @@
+{
+  "name": "dataforge-backend-api",
+  "version": "1.0.0",
+  "description": "DataForge event registration backend API for deployment",
+  "main": "easy-server.js",
+  "scripts": {
+    "start": "node easy-server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.13"
+  },
+  "license": "MIT"
+}

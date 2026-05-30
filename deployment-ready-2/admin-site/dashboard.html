@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataForge Admin - Dashboard</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/dataforge-logo.png" alt="DataForge" class="brand-logo">
+        <span class="brand-kicker">Admin Terminal</span>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="dashboard.html" class="active">Dashboard</a></li>
+        <li class="nav-item"><a href="events.html">Manage Events</a></li>
+        <li class="nav-item"><a href="#" id="logoutBtn">Terminate Session</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <h2>System Overview</h2>
+        <div>Admin ID: <span style="color: var(--neon-green)">SYS_ADMIN_01</span></div>
+      </header>
+
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="stat-title">Total Events</div>
+          <div class="stat-value" id="statEvents">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Total Registrations</div>
+          <div class="stat-value" id="statRegistrations">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Pending Approvals</div>
+          <div class="stat-value" id="statPending" style="color: #ffaa00">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">System Revenue</div>
+          <div class="stat-value" id="statRevenue">--</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>Registration Uplink Trends</h3>
+        <canvas id="registrationChart" height="100"></canvas>
+      </div>
+
+      <div class="table-container">
+        <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between;">
+          <h3>Recent Network Activity</h3>
+          <a href="events.html" class="btn">View All</a>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>Status</th>
+              <th>Execution Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="recentEventsTable">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="js/matrix-bg.js" defer></script>
+  <script type="module" src="js/admin/dashboard.js"></script>
+</body>
+</html>

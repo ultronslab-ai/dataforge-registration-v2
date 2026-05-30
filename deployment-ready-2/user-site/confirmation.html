@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataForge | Registration Complete</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/public.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <img src="assets/dataforge-logo.png" alt="DataForge" class="logo-img">
+      </a>
+    </div>
+  </header>
+
+  <main class="container animate-fade-in">
+    <div class="confirmation-box glass-panel" id="ticket-container">
+      <img src="assets/dataforge-logo.png" alt="" class="ticket-watermark" aria-hidden="true">
+      <div class="success-icon">✓</div>
+      <div class="ticket-event-name" id="conf-event-hero">-</div>
+      <h1>Registration Confirmed</h1>
+      <p>Your spot has been secured. See you in the grid.</p>
+      
+      <div class="ticket-details glass-panel">
+        <p><strong>Ticket ID:</strong> <span id="conf-ticket-id" style="color: var(--accent-blue)">-</span></p>
+        <p><strong>Event:</strong> <span id="conf-event-name">-</span></p>
+        <p><strong>Date & Time:</strong> <span id="conf-event-date">-</span></p>
+        <p><strong>Venue:</strong> <span id="conf-event-venue">-</span></p>
+        <p><strong>Team:</strong> <span id="conf-team-name">-</span></p>
+        <p><strong>Primary Contact:</strong> <span id="conf-name">-</span></p>
+        <p><strong>Email:</strong> <span id="conf-email">-</span></p>
+      </div>
+
+      <div class="ticket-summary glass-panel">
+        <h3>Team Summary</h3>
+        <p id="conf-event-desc">-</p>
+        <p id="conf-team-summary">-</p>
+        <ul id="conf-team-members"></ul>
+      </div>
+      
+      <div class="mt-2">
+        <button class="btn" id="print-btn">Export Ticket (PDF)</button>
+        <a href="index.html" class="btn btn-primary" style="margin-left: 1rem;">Return to Events</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/matrix-bg.js" defer></script>
+  <script type="module" src="js/confirmation.js?v=20260529-ticket-event-details"></script>
+</body>
+</html>

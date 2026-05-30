@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataForge Admin - Event Control</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/dataforge-logo.png" alt="DataForge" class="brand-logo">
+        <span class="brand-kicker">Admin Terminal</span>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a href="events.html" class="active">Manage Events</a></li>
+        <li class="nav-item"><a href="#" id="logoutBtn">Terminate Session</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar flex justify-between align-center">
+        <div>
+          <a href="events.html" style="font-size: 0.9rem; margin-bottom: 0.5rem; display: inline-block;">&lt; Back to Manifest</a>
+          <h2 id="eventDetailTitle">Loading Event Data...</h2>
+        </div>
+        <div class="flex gap-1">
+          <button class="btn btn-danger" id="closeEventBtn">Delete Event</button>
+        </div>
+      </header>
+
+      <div class="dashboard-grid mb-1">
+        <div class="stat-card">
+          <div class="stat-title">Total Registrants</div>
+          <div class="stat-value" id="detailTotalReg">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Pending Verification</div>
+          <div class="stat-value" id="detailPendingReg" style="color: #ffaa00">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Verified Users</div>
+          <div class="stat-value" id="detailVerifiedReg" style="color: var(--neon-green)">0</div>
+        </div>
+      </div>
+
+      <div class="table-container mt-1">
+        <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+          <h3>Registration Log</h3>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Reg ID</th>
+              <th>Team Name</th>
+              <th>Leader Details</th>
+              <th>Verification</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="registrantsTable">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Verification Modal -->
+    <div class="modal" id="verifyModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Verify Payment Artifact</h3>
+          <button class="close-modal" id="closeVerifyModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Team:</strong> <span id="verifyTeamName" style="color: var(--neon-green)"></span></p>
+          <p><strong>Registration ID:</strong> <span id="verifyRegId"></span></p>
+          <p><strong>Leader:</strong> <span id="verifyLeaderDetails"></span></p>
+          <p id="verifyTxnInfo" style="display: none;"><strong>Txn ID:</strong> <span id="verifyTxnId" style="color: var(--neon-blue)"></span> | <strong>UPI Ref:</strong> <span id="verifyUpiRef"></span></p>
+
+          <div class="verification-section">
+            <h4>Team Information</h4>
+            <div id="verifyTeamMembers" class="member-review-list"></div>
+          </div>
+          
+          <div class="flex gap-1 mt-1 mb-1" style="justify-content: center; align-items: center; flex-wrap: wrap;">
+            <div id="proof-container" style="display: none; text-align: center; flex: 1; min-width: 250px;">
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">Payment Proof</p>
+              <img id="modalProofImg" src="" alt="Payment Proof" style="max-width: 100%; max-height: 250px; border: 1px solid var(--border-color); border-radius: 4px; display: none;">
+              <a id="modalProofLink" href="" target="_blank" class="btn" style="padding: 0.5rem; display: none; text-align: center; font-size: 0.9rem;">Open Payment Proof</a>
+            </div>
+            <div id="resume-container" style="display: none; text-align: center; flex: 1; min-width: 250px;">
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">Student ID / Resume</p>
+              <img id="modalResumeImg" src="" alt="Student ID Proof" style="max-width: 100%; max-height: 250px; border: 1px solid var(--border-color); border-radius: 4px; display: none;">
+              <a id="modalResumeLink" href="" target="_blank" class="btn" style="padding: 0.5rem; display: none; text-align: center; font-size: 0.9rem;">Open Uploaded File</a>
+            </div>
+          </div>
+
+          <div class="form-group" id="rejection-reason-group" style="margin-top: 1rem;">
+            <label for="rejectionReason">Rejection Reason (Required for rejection)</label>
+            <input type="text" id="rejectionReason" placeholder="Enter reason if rejecting proof..." style="width: 100%; padding: 0.5rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 4px; color: white;">
+          </div>
+          
+          <div class="flex gap-1 justify-between mt-1">
+            <button class="btn btn-danger" id="rejectBtn">Reject Artifact</button>
+            <button class="btn" id="approveBtn">Verify & Authorize</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/matrix-bg.js" defer></script>
+  <script type="module" src="js/admin/event-detail.js?v=20260529-location-export-download"></script>
+</body>
+</html>

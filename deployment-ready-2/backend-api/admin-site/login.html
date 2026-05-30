@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataForge Admin - Login</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-brand">
+        <img src="assets/dataforge-logo.png" alt="DataForge" class="brand-logo">
+        <span class="brand-kicker">Admin Terminal</span>
+      </div>
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label for="username">Access ID</label>
+          <input type="text" id="username" required placeholder="Enter admin ID">
+        </div>
+        <div class="form-group">
+          <label for="password">Passcode</label>
+          <input type="password" id="password" required placeholder="Enter passcode">
+        </div>
+        <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Initialize Session</button>
+      </form>
+      <div id="loginError" class="hidden" style="color: var(--neon-red); margin-top: 1rem; text-align: center;"></div>
+    </div>
+  </div>
+  <script src="js/matrix-bg.js" defer></script>
+  <script type="module" src="js/admin/login.js"></script>
+</body>
+</html>

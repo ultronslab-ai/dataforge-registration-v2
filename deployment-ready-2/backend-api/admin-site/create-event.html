@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataForge Admin - Deploy Event</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/dataforge-logo.png" alt="DataForge" class="brand-logo">
+        <span class="brand-kicker">Admin Terminal</span>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a href="events.html" class="active">Manage Events</a></li>
+        <li class="nav-item"><a href="#" id="logoutBtn">Terminate Session</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar flex justify-between align-center">
+        <h2>Deploy New Event Protocol</h2>
+        <a href="events.html" class="btn btn-danger">Abort</a>
+      </header>
+
+      <div class="table-container" style="padding: 2rem; max-width: 800px; margin-bottom: 2rem;">
+        <form id="createEventForm">
+          <div class="form-group">
+            <label for="eventName">Event Designation (Name)</label>
+            <input type="text" id="eventName" name="name" required placeholder="e.g. Cyber Security Summit 2026">
+          </div>
+          
+          <div class="grid-2-col">
+            <div class="form-group">
+              <label for="eventDate">Execution Date & Time</label>
+              <input type="datetime-local" id="eventDate" name="date_time" required>
+            </div>
+            <div class="form-group">
+              <label for="registrationDeadline">Registration Deadline</label>
+              <input type="datetime-local" id="registrationDeadline" name="registration_deadline" required>
+            </div>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="form-group">
+              <label for="eventVenue">Venue</label>
+              <input type="text" id="eventVenue" name="venue" required placeholder="e.g. Lab Complex 3">
+            </div>
+            <div class="form-group">
+              <label for="eventCategory">Category</label>
+              <select id="eventCategory" name="category" required>
+                <option value="Technical">Technical</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Seminar">Seminar</option>
+                <option value="Cultural">Cultural</option>
+                <option value="Sports">Sports</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="form-group">
+              <label for="teamSize">Max Team Size</label>
+              <input type="number" id="teamSize" name="team_size" min="1" max="10" value="4" required>
+            </div>
+            <div class="form-group">
+              <label for="maxTeams">Max Teams Capacity (Optional)</label>
+              <input type="number" id="maxTeams" name="max_teams" min="1" placeholder="e.g. 50 (blank for unlimited)">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="eventDesc">Protocol Description (HTML supported)</label>
+            <textarea id="eventDesc" name="description" rows="4" required placeholder="Detailed information about the event..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="bannerUpload">Event Banner Image (Optional)</label>
+            <input type="file" id="bannerUpload" name="banner" accept="image/*" style="background: transparent; border: none; padding: 0;">
+          </div>
+
+          <div class="form-group">
+            <label for="eventType">Access Tier</label>
+            <select id="eventType" name="is_paid" required>
+              <option value="false">Open Access (Free)</option>
+              <option value="true">Restricted Access (Paid)</option>
+            </select>
+          </div>
+
+          <div id="paymentConfig" class="hidden">
+            <div class="grid-2-col">
+              <div class="form-group">
+                <label for="eventPrice">Access Fee (INR)</label>
+                <input type="number" id="eventPrice" name="fees" min="0" step="1" placeholder="e.g. 200">
+              </div>
+              <div class="form-group">
+                <label for="upiId">UPI ID for Payments</label>
+                <input type="text" id="upiId" name="upi_id" placeholder="e.g. pay@upi">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="paymentNote">Payment Instructions / Notes</label>
+              <textarea id="paymentNote" name="payment_note" rows="2" placeholder="e.g. Please mention your TEAM NAME in the payment notes."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="qrUpload">Payment QR Code Upload</label>
+              <input type="file" id="qrUpload" name="qr_code" accept="image/*" style="background: transparent; border: none; padding: 0;">
+            </div>
+          </div>
+
+          <button type="submit" class="btn mt-1" style="width: 100%;">Initialize Deployment</button>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script src="js/matrix-bg.js" defer></script>
+  <script type="module" src="js/admin/create-event.js"></script>
+</body>
+</html>
