@@ -217,13 +217,13 @@ async function saveData(data) {
       team_members: reg.team_members || [],
       payment_status: reg.payment_status,
       verification_status: reg.verification_status,
-      transaction_id: reg.transaction_id,
-      upi_reference: reg.upi_reference,
-      payment_proof_path: reg.payment_proof_path,
-      captain_file_path: reg.captain_file_path,
+      transaction_id: reg.transaction_id || null,
+      upi_reference: reg.upi_reference || null,
+      payment_proof_path: reg.payment_proof_path || null,
+      captain_file_path: reg.captain_file_path || null,
       registration_id: reg.registration_id,
-      rejection_reason: reg.rejection_reason,
-      verified_at: reg.verified_at,
+      rejection_reason: reg.rejection_reason || null,
+      verified_at: reg.verified_at || null,
       created_at: reg.created_at || new Date().toISOString()
     }));
 
