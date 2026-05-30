@@ -1,4 +1,4 @@
-const DEPLOYED_API_BASE_URL = 'https://YOUR-RENDER-BACKEND-URL.onrender.com/api';
+const DEPLOYED_API_BASE_URL = 'https://dataforge-registration-v2.onrender.com/api';
 const LOCAL_API_BASE_URL = 'http://localhost:4000/api';
 
 const CONFIG = {
