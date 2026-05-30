@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    const fileUrl = `${apiHost}${path}`;
+    const fileUrl = /^https?:\/\//i.test(path) ? path : `${apiHost}${path}`;
     container.style.display = 'block';
     link.href = fileUrl;
     link.textContent = `Open ${label}`;
